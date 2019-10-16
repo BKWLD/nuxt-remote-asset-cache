@@ -20,7 +20,8 @@ module.exports = (data) ->
 	text = JSON.stringify data
 	text = text.replace pattern, (url, filename) ->
 		remoteUrls.push url unless remoteUrls.includes url
-		return replacement.replace '$1', filename
+		publicPath = replacement.replace '$1', filename
+		return publicPath
 	
 	# Update the log
 	logger.info "Found #{remoteUrls.length - urlsFound} new assets"

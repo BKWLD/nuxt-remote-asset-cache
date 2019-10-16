@@ -26,11 +26,14 @@
     urlsFound = remoteUrls.length;
     text = JSON.stringify(data);
     text = text.replace(pattern, function (url, filename) {
+      var publicPath;
+
       if (!remoteUrls.includes(url)) {
         remoteUrls.push(url);
       }
 
-      return replacement.replace('$1', filename);
+      publicPath = replacement.replace('$1', filename);
+      return publicPath;
     }); // Update the log
 
     logger.info(`Found ${remoteUrls.length - urlsFound} new assets`); // Return updated object
