@@ -1,0 +1,23 @@
+{
+  "name": "nuxt-remote-asset-cache",
+  "version": "1.0.0",
+  "description": "Store remote assets in the local build during Nuxt generation",
+  "main": "nuxt/module.js",
+  "repository": "git@github.com:BKWLD/nuxt-remote-asset-cache.git",
+  "author": "Bukwild",
+  "license": "MIT",
+  "scripts": {
+    "build": "coffee -ct -o dist src/*",
+    "dev": "coffee -ctw -o dist src/*"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.6.4",
+    "coffeescript": "^2.4.1"
+  },
+  "dependencies": {
+    "async": "^3.1.0",
+    "axios": "^0.19.0",
+    "consola": "^2.10.1",
+    "mkdirp": "^0.5.1"
+  }
+}
