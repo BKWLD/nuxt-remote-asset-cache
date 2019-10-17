@@ -45,7 +45,6 @@ downloadAssetToCacheDir = ({ oldUrl, newUrl }) -> (resolve) ->
 # Publish the cache contents to the public directory
 publishCache = -> 
 	logger.info "Publishing the cache directory"
-	console.log options.cacheDir, options.publicDir
 	fs.copySync options.cacheDir, options.publicDir, 
 		overwrite: true
 	logger.success "Publishing cache directory complete"

@@ -151,7 +151,6 @@ downloadAssetToCacheDir = function downloadAssetToCacheDir(_ref4) {
 // Publish the cache contents to the public directory
 publishCache = function publishCache() {
   _logger2.default.info("Publishing the cache directory");
-  console.log(_store.options.cacheDir, _store.options.publicDir);
   _fsExtra2.default.copySync(_store.options.cacheDir, _store.options.publicDir, {
     overwrite: true
   });
