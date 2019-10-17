@@ -11,7 +11,10 @@
     "dev": "coffee -ctw -o dist src/*"
   },
   "devDependencies": {
-    "@babel/core": "^7.6.4",
+    "@babel/plugin-transform-regenerator": "^7.4.5",
+    "babel-core": "^6.26.0",
+    "babel-plugin-transform-runtime": "^6.23.0",
+    "babel-preset-env": "^1.6.1",
     "coffeescript": "^2.4.1"
   },
   "dependencies": {
