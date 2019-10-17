@@ -4,8 +4,8 @@ This stores remote assets, like images, that are referenced in the `asyncData` o
 
 ## Example
 
+#### nuxt.config.js
 ```js
-// nuxt.config.js
 {
   modules: [
     	'nuxt-remote-asset-cache',
@@ -21,10 +21,26 @@ This stores remote assets, like images, that are referenced in the `asyncData` o
     cacheDir: process.env.NETLIFY_CACHE_DIR,
     assetRegex: [
       {
-        pattern: /https?:\/\/cms\.hostname\.com\/images\/([\w\d-.]+)/gi,
+        pattern: /https?:\/\/cms\.hostname\.com\/images\/([\w\d-.\/]+)/gi,
         replacement: '/images/$1'
       }
     ]
   }
 }
+```
+
+#### pages/home.vue
+```html
+<script>
+export default {
+  asyncData ({$cacheAssets}) {
+    // Fetch some data from somewhere
+    const data = { marquee: { 
+      headline: 'Hi',
+      background: 'http://cms.hostname.com/images/file.jpg'
+    }}
+    return $cacheAssets(data)
+  }
+}
+</script>
 ```
