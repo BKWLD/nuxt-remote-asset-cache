@@ -22,7 +22,7 @@ This stores remote assets, like images, that are referenced in the `asyncData` o
     assetRegex: [
       {
         pattern: /https?:\/\/cms\.hostname\.com\/images\/([\w\d-.\/]+)/gi,
-        replacement: '/images/$1'
+        replacement: `${process.env.URL}/images/$1`
       }
     ]
   }
