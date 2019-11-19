@@ -23,16 +23,16 @@ downloadfoundAssetsToCacheDir = ->
 	logger.success 'Downloading to cache complete'
 
 # Check if an asset has already been downloaded
-isNewAsset = ({ newUrl }, callback) ->
-	fs.access makeDest(newUrl), (err) -> callback null, !!err
+isNewAsset = ({ newPath }, callback) ->
+	fs.access makeDest(newPath), (err) -> callback null, !!err
 
 # Make the local path given a remote URL
 makeDest = (url) -> path.join options.cacheDir, url
 
 # Download an asset to the cache directory if it's new. Not using async/await in
 # here because parallelLimit() doesn't work with it when it's been transpiled.
-downloadAssetToCacheDir = ({ oldUrl, newUrl }) -> (resolve) ->
-	dest = makeDest newUrl
+downloadAssetToCacheDir = ({ oldUrl, newPath }) -> (resolve) ->
+	dest = makeDest newPath
 	fs.ensureDirSync path.dirname dest # Make the directory path
 	axios oldUrl, responseType: 'stream'
 	.then (response) -> response.data.pipe fs.createWriteStream dest

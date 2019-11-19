@@ -28,16 +28,17 @@ exports.default = function (data) {
     replacement = _ref$i.replacement;
 
     text = text.replace(pattern, function (oldUrl, filename) {
-      var newUrl;
+      var newPath, newUrl;
 
       // Make the new URL using the replacement
-      newUrl = replacement.replace('$1', filename);
+      newPath = replacement.storagePath.replace('$1', filename);
+      newUrl = replacement.publicUrl.replace('$1', filename);
 
       // If this URL hasn't been found yet, add it to the list to be downloaded
       if (!_store.foundAssets.find(function (asset) {
         return asset.oldUrl === oldUrl;
       })) {
-        _store.foundAssets.push({ oldUrl: oldUrl, newUrl: newUrl });
+        _store.foundAssets.push({ oldUrl: oldUrl, newPath: newPath });
       }
 
       // Replace the old URL with the new one

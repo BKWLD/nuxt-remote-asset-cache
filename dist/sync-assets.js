@@ -113,9 +113,9 @@ downloadfoundAssetsToCacheDir = function () {
 
 // Check if an asset has already been downloaded
 isNewAsset = function isNewAsset(_ref3, callback) {
-  var newUrl = _ref3.newUrl;
+  var newPath = _ref3.newPath;
 
-  return _fsExtra2.default.access(makeDest(newUrl), function (err) {
+  return _fsExtra2.default.access(makeDest(newPath), function (err) {
     return callback(null, !!err);
   });
 };
@@ -129,11 +129,11 @@ makeDest = function makeDest(url) {
 // here because parallelLimit() doesn't work with it when it's been transpiled.
 downloadAssetToCacheDir = function downloadAssetToCacheDir(_ref4) {
   var oldUrl = _ref4.oldUrl,
-      newUrl = _ref4.newUrl;
+      newPath = _ref4.newPath;
 
   return function (resolve) {
     var dest;
-    dest = makeDest(newUrl);
+    dest = makeDest(newPath);
     _fsExtra2.default.ensureDirSync(_path2.default.dirname(dest)); // Make the directory path
     return (0, _axios2.default)(oldUrl, {
       responseType: 'stream'

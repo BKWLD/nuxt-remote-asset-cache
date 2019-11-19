@@ -18,11 +18,12 @@ export default (data) ->
 		text = text.replace pattern, (oldUrl, filename) ->
 			
 			# Make the new URL using the replacement
-			newUrl = replacement.replace '$1', filename
+			newPath = replacement.storagePath.replace '$1', filename
+			newUrl = replacement.publicUrl.replace '$1', filename
 			
 			# If this URL hasn't been found yet, add it to the list to be downloaded
 			unless foundAssets.find (asset) -> asset.oldUrl == oldUrl
-				foundAssets.push { oldUrl, newUrl }
+				foundAssets.push { oldUrl, newPath }
 				
 			# Replace the old URL with the new one
 			return newUrl
