@@ -17,6 +17,9 @@ export default (data) ->
 	for { pattern, replacement } in options.assetRegex
 		text = text.replace pattern, (oldUrl, filename) ->
 			
+			# Auto lower case the filename
+			filename = filename.toLowerCase() if replacement.autoLowercase
+			
 			# Make the new URL using the replacement
 			newPath = replacement.storagePath.replace '$1', filename
 			newUrl = replacement.publicUrl.replace '$1', filename

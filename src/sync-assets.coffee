@@ -40,7 +40,6 @@ downloadAssetToCacheDir = ({ oldUrl, newPath }) -> (resolve) ->
 		logger.error "Error while downloading #{oldUrl} to #{dest}"
 		logger.error error
 	.finally -> resolve()
-		
 	
 # Publish the cache contents to the public directory
 publishCache = -> 
