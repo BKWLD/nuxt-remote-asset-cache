@@ -29,11 +29,10 @@ exports.default = function (data) {
 
     text = text.replace(pattern, function (oldUrl, filename) {
       var newPath, newUrl;
-
-      // Auto lower case the filename
       if (replacement.autoLowercase) {
+
+        // Auto lower case the filename
         filename = filename.toLowerCase();
-        _logger2.default.info('auto case', filename);
       }
 
       // Make the new URL using the replacement
