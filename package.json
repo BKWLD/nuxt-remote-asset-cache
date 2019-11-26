@@ -1,6 +1,6 @@
 {
   "name": "nuxt-remote-asset-cache",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "description": "Store remote assets in the local build during Nuxt generation",
   "main": "nuxt/module.js",
   "repository": "git@github.com:BKWLD/nuxt-remote-asset-cache.git",
