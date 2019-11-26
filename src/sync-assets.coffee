@@ -34,7 +34,18 @@ downloadAssetToCacheDir = ({ oldUrl, newPath }) -> (callback) ->
 	dest = makeDest newPath
 	fs.ensureDirSync path.dirname dest # Make the directory path
 	axios oldUrl, responseType: 'stream'
-	.then (response) -> response.data.pipe fs.createWriteStream dest
+	
+	# Save the file
+	.then (response) -> 
+		stream = fs.createWriteStream dest
+		stream.on 'finish', callback
+		stream.on 'error', (error) ->
+			logger.error "Error writing #{oldUrl} to #{dest}"
+			logger.error error
+			callback error
+		response.data.pipe stream
+	
+	# Cleanup after errors
 	.catch (error) -> 
 		logger.error "Error downloading #{oldUrl} to #{dest}"
 		logger.error error
