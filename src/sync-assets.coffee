@@ -18,8 +18,7 @@ downloadfoundAssetsToCacheDir = ->
 	logger.info "Downloading #{newAssets.length} asset(s) to cache, 
 		#{options.concurrency} at a time"
 	tasks = newAssets.map downloadAssetToCacheDir
-	try await parallelLimit tasks, options.concurrency
-	catch e then logger.warn 'Download errors were encountered'
+	await parallelLimit tasks, options.concurrency
 	logger.success 'Downloading to cache complete'
 
 # Check if an asset has already been downloaded
@@ -31,15 +30,15 @@ makeDest = (url) -> path.join options.cacheDir, url
 
 # Download an asset to the cache directory if it's new. Not using async/await in
 # here because parallelLimit() doesn't work with it when it's been transpiled.
-downloadAssetToCacheDir = ({ oldUrl, newPath }) -> (resolve) ->
+downloadAssetToCacheDir = ({ oldUrl, newPath }) -> (callback) ->
 	dest = makeDest newPath
 	fs.ensureDirSync path.dirname dest # Make the directory path
 	axios oldUrl, responseType: 'stream'
 	.then (response) -> response.data.pipe fs.createWriteStream dest
 	.catch (error) -> 
-		logger.error "Error while downloading #{oldUrl} to #{dest}"
+		logger.error "Error downloading #{oldUrl} to #{dest}"
 		logger.error error
-	.finally -> resolve()
+		callback error
 	
 # Publish the cache contents to the public directory
 publishCache = -> 
