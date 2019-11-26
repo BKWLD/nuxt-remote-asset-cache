@@ -67,7 +67,7 @@ exports.default = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.de
 
 downloadfoundAssetsToCacheDir = function () {
   var _ref2 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee2() {
-    var e, newAssets, tasks;
+    var newAssets, tasks;
     return _regenerator2.default.wrap(function _callee2$(_context2) {
       while (1) {
         switch (_context2.prev = _context2.next) {
@@ -80,30 +80,18 @@ downloadfoundAssetsToCacheDir = function () {
 
             _logger2.default.info('Downloading ' + newAssets.length + ' asset(s) to cache, ' + _store.options.concurrency + ' at a time');
             tasks = newAssets.map(downloadAssetToCacheDir);
-            _context2.prev = 5;
-            _context2.next = 8;
+            _context2.next = 7;
             return (0, _parallelLimit2.default)(tasks, _store.options.concurrency);
 
-          case 8:
-            _context2.next = 14;
-            break;
-
-          case 10:
-            _context2.prev = 10;
-            _context2.t0 = _context2['catch'](5);
-
-            e = _context2.t0;
-            _logger2.default.warn('Download errors were encountered');
-
-          case 14:
+          case 7:
             return _context2.abrupt('return', _logger2.default.success('Downloading to cache complete'));
 
-          case 15:
+          case 8:
           case 'end':
             return _context2.stop();
         }
       }
-    }, _callee2, this, [[5, 10]]);
+    }, _callee2, this);
   }));
 
   return function downloadfoundAssetsToCacheDir() {
@@ -131,19 +119,30 @@ downloadAssetToCacheDir = function downloadAssetToCacheDir(_ref4) {
   var oldUrl = _ref4.oldUrl,
       newPath = _ref4.newPath;
 
-  return function (resolve) {
+  return function (callback) {
     var dest;
     dest = makeDest(newPath);
     _fsExtra2.default.ensureDirSync(_path2.default.dirname(dest)); // Make the directory path
     return (0, _axios2.default)(oldUrl, {
       responseType: 'stream'
+
+      // Save the file
     }).then(function (response) {
-      return response.data.pipe(_fsExtra2.default.createWriteStream(dest));
+      var stream;
+      stream = _fsExtra2.default.createWriteStream(dest);
+      stream.on('finish', callback);
+      stream.on('error', function (error) {
+        _logger2.default.error('Error writing ' + oldUrl + ' to ' + dest);
+        _logger2.default.error(error);
+        return callback(error);
+      });
+      return response.data.pipe(stream);
+
+      // Cleanup after errors
     }).catch(function (error) {
-      _logger2.default.error('Error while downloading ' + oldUrl + ' to ' + dest);
-      return _logger2.default.error(error);
-    }).finally(function () {
-      return resolve();
+      _logger2.default.error('Error downloading ' + oldUrl + ' to ' + dest);
+      _logger2.default.error(error);
+      return callback(error);
     });
   };
 };
