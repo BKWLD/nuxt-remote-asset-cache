@@ -19,7 +19,7 @@
   },
   "dependencies": {
     "async": "^3.1.0",
-    "axios": "^0.19.0",
+    "axios": "^0.21.1",
     "consola": "^2.10.1",
     "fs-extra": "^8.1.0"
   }
